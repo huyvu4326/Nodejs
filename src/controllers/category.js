@@ -8,7 +8,7 @@ const categorySchema = Joi.object({
 
 export const getAll = async (req, res) => {
   try {
-    const data = await Category.find();
+    const data = await Category.find().populate("products")
 
     if (data.length == 0) {
       return res.json({
@@ -21,17 +21,14 @@ export const getAll = async (req, res) => {
 export const get = async (req, res) => {
   try {
     const id = req.params.id;
-    const category = await Category.findById(id);
+    const category = await Category.findById(id).populate("products")
     if (category.length === 0) {
       return res.status(200).json({
         message: "Không có danh mục",
       });
     }
     const products = await Product.find({categoryID: id});
-    return res.status(200).json({
-      ...category.toObject(),
-      products
-    });
+    return res.status(200).json(category);
   } catch (error) {
     return res.status(400).json({
       message: error,
