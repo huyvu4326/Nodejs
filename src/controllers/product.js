@@ -11,7 +11,7 @@ const productSchema = Joi.object({
 });
 
 export const getAll = async (req, res) => {
-    const { _limit = 10, _sort = "createAt", _order = "asc", _page = 1 } = req.query;
+    const { _limit = 20, _sort = "price", _order = "asc", _page = 1 } = req.query;
     const options = {
         page: _page,
         limit: _limit,
